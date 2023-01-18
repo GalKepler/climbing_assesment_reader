@@ -1,12 +1,8 @@
 # type: ignore[attr-defined]
-"""A python project aimed for easy parsing and reading of the climbing skill assesment sheet""""
+"""A python project aimed for easy parsing and reading of the climbing skill assesment sheet"""
 
 import sys
-
-if sys.version_info >= (3, 8):
-    from importlib import metadata as importlib_metadata
-else:
-    import importlib_metadata
+from importlib import metadata as importlib_metadata
 
 
 def get_version() -> str:

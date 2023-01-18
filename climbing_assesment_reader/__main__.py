@@ -22,7 +22,7 @@ class Color(str, Enum):
 
 app = typer.Typer(
     name="climbing_assesment_reader",
-    help="A python project aimed for easy parsing and reading of the climbing skill assesment sheet"",
+    help="A python project aimed for easy parsing and reading of the climbing skill assesment sheet",
     add_completion=False,
 )
 console = Console()
@@ -31,7 +31,9 @@ console = Console()
 def version_callback(print_version: bool) -> None:
     """Print the version of the package."""
     if print_version:
-        console.print(f"[yellow]climbing_assesment_reader[/] version: [bold blue]{version}[/]")
+        console.print(
+            f"[yellow]climbing_assesment_reader[/] version: [bold blue]{version}[/]"
+        )
         raise typer.Exit()
 
 
