@@ -1,0 +1,13 @@
+# This file contains values from Cookiecutter
+
+default_context:
+  project_name: "climbing_assesment_reader"
+  project_description: "A python project aimed for easy parsing and reading of the climbing skill assesment sheet""
+  organization: "climbing_assesment_reader"
+  license: "MIT"
+  minimal_python_version: 3.9
+  github_name: "GalKepler"
+  email: "galkepler@gmail.com"
+  version: "0.1.0"
+  line_length: "88"
+  create_example_template: "cli"
