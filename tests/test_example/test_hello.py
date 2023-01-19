@@ -1,7 +1,6 @@
 """Tests for hello function."""
 import pytest
-
-from climbing_assesment_reader.example import hello
+from climbing_assessment_reader.example import hello
 
 
 @pytest.mark.parametrize(

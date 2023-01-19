@@ -1,9 +1,9 @@
 # This file contains values from Cookiecutter
 
 default_context:
-  project_name: "climbing_assesment_reader"
-  project_description: "A python project aimed for easy parsing and reading of the climbing skill assesment sheet""
-  organization: "climbing_assesment_reader"
+  project_name: "climbing_assessment_reader"
+  project_description: "A python project aimed for easy parsing and reading of the climbing skill assesment sheet"
+  organization: "climbing_assessment_reader"
   license: "MIT"
   minimal_python_version: 3.9
   github_name: "GalKepler"

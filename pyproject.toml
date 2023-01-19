@@ -4,14 +4,14 @@ requires = ["poetry_core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
-name = "climbing_assesment_reader"
+name = "climbing_assessment_reader"
 version = "0.1.0"
 description = "A python project aimed for easy parsing and reading of the climbing skill assesment sheet"
 readme = "README.md"
 authors = ["Gal Kepler <galkepler@gmail.com>"]
 license = "MIT"
-repository = "https://github.com/GalKepler/climbing_assesment_reader"
-homepage = "https://github.com/GalKepler/climbing_assesment_reader"
+repository = "https://github.com/GalKepler/climbing_assessment_reader"
+homepage = "https://github.com/GalKepler/climbing_assessment_reader"
 
 # Keywords description https://python-poetry.org/docs/pyproject/#keywords
 keywords = []  #! Update me
@@ -29,7 +29,7 @@ classifiers = [  #! Update me
 
 [tool.poetry.scripts]
 # Entry points for the package https://python-poetry.org/docs/pyproject/#scripts
-"climbing_assesment_reader" = "climbing_assesment_reader.__main__:app"
+"climbing_assessment_reader" = "climbing_assessment_reader.__main__:app"
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -139,7 +139,7 @@ addopts = [
 source = ["tests"]
 
 [coverage.paths]
-source = "climbing_assesment_reader"
+source = "climbing_assessment_reader"
 
 [coverage.run]
 branch = true

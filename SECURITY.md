@@ -7,7 +7,7 @@
 
 Vulnerabilities can be reported by emailing core members:
 
-- climbing_assesment_reader [galkepler@gmail.com](mailto:galkepler@gmail.com)
+- climbing_assessment_reader [galkepler@gmail.com](mailto:galkepler@gmail.com)
 
 Please include the requested information listed below (as much as you can provide) to help us better understand the nature and scope of the possible issue:
 
