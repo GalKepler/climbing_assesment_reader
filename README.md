@@ -2,7 +2,7 @@
 
 <div align="center">
 
-[![Build status](https://github.com/GalKepler/climbing_assesment_reader/workflows/build/badge.svg?branch=master&event=push)](https://github.com/GalKepler/climbing_assesment_reader/actions?query=workflow%3Abuild)
+[![Build status](https://github.com/GalKepler/climbing_assesment_reader/workflows/build/badge.svg)](https://github.com/GalKepler/climbing_assesment_reader/actions?query=workflow%3Abuild)
 [![Python Version](https://img.shields.io/pypi/pyversions/climbing_assesment_reader.svg)](https://pypi.org/project/climbing_assesment_reader/)
 [![Dependencies Status](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)](https://github.com/GalKepler/climbing_assesment_reader/pulls?utf8=%E2%9C%93&q=is%3Apr%20author%3Aapp%2Fdependabot)
 
