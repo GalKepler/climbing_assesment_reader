@@ -3,6 +3,7 @@ from typing import Union
 from pathlib import Path
 
 import gspread as gs
+import numpy as np
 import pandas as pd
 
 from climbing_assessment_reader.assessment_reader.defaults import (
@@ -27,8 +28,11 @@ class AssessmentReader:
     #: Mappers
     MAPPERS = {
         "climbing_wall": CLIMBING_WALLS_MAPPER,
+    }
+    CONVERTERS = {
         "questionnaire_id": convert_questionnaire_id,
-        "grade": convert_grade,
+        "grade*": convert_grade,
+        "timestamp": pd.to_datetime,
     }
 
     def __init__(
@@ -69,24 +73,111 @@ class AssessmentReader:
         df.columns = df.loc[0]
         return df.drop(0).rename(columns=COLUMNS_MAPPER).drop(columns=self.DROP_COLUMNS)
 
-    def reformat(self, df: pd.DataFrame) -> pd.DataFrame:
+    def map_columns(self, df: pd.DataFrame) -> pd.DataFrame:
         """
-        Reformat the assessment data.
+        Map the columns.
 
         Parameters
         ----------
         df : pd.DataFrame
-            The assessment data.
+            The dataframe to map.
 
         Returns
         -------
         pd.DataFrame
-            The cleaned assessment data.
+            The mapped dataframe.
         """
-        df = df.drop(columns=self.DROP_COLUMNS)
-        df = df.dropna(subset=["climbing_wall", "questionnaire_id"])
-        df["climbing_wall"] = df["climbing_wall"].map(CLIMBING_WALLS_MAPPER)
-        df["questionnaire_id"] = df["questionnaire_id"].map(convert_questionnaire_id)
-        df["grade"] = df["grade"].map(convert_grade)
-        df = convert_duplicated_columns(df)
+        for column, mapper in self.MAPPERS.items():
+            df[column] = df[column].map(mapper)
         return df
+
+    def convert_columns(self, df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Convert the columns.
+
+        Parameters
+        ----------
+        df : pd.DataFrame
+            The dataframe to convert.
+
+        Returns
+        -------
+        pd.DataFrame
+            The converted dataframe.
+        """
+        for regex, converter in self.CONVERTERS.items():
+            for column in df.filter(regex=regex).columns:
+                df[column] = df[column].apply(converter)
+        return df
+
+    def get_data(self) -> pd.DataFrame:
+        """
+        Get the assessment data.
+
+        Returns
+        -------
+        pd.DataFrame
+            The assessment data.
+        """
+        df = self.read()
+        df = convert_duplicated_columns(df)
+        df = self.map_columns(df)
+        df = self.convert_columns(df)
+        df["date"] = df["timestamp"].dt.date
+        df["time"] = df["timestamp"].dt.time
+        return df.replace({"": np.nan})
+
+    def fix_multiple_entries(self, df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Fix multiple entries.
+
+        Parameters
+        ----------
+        df : pd.DataFrame
+            The dataframe to fix.
+
+        Returns
+        -------
+        pd.DataFrame
+            The fixed dataframe.
+        """
+        new_df = (
+            df.sort_values(by=["questionnaire_id", "timestamp"])
+            .groupby(["questionnaire_id", "date"])
+            .first()
+            .reset_index()
+        )
+        for q_id in new_df["questionnaire_id"].unique():
+            q_id_df = df[df["questionnaire_id"] == q_id]
+            for date in q_id_df["date"].unique():
+                target_row = new_df.loc[
+                    (new_df["questionnaire_id"] == q_id) & (new_df["date"] == date)
+                ].index[0]
+                date_df = q_id_df[
+                    (q_id_df["date"] == date)
+                    & (q_id_df["timestamp"] != new_df.loc[target_row, "timestamp"])
+                ]
+                if date_df.shape[0] > 0:
+                    print("Multiple entries found:")
+                    print(f"Questionnaire ID: {q_id}, Date: {date}")
+                    for row in date_df.index:
+                        for column in date_df.columns:
+                            if pd.isna(new_df.loc[target_row, column]) and pd.notna(
+                                date_df.loc[row, column]
+                            ):
+                                new_df.loc[target_row, column] = date_df.loc[
+                                    row, column
+                                ]
+        return new_df
+
+    @property
+    def raw_data(self) -> pd.DataFrame:
+        """
+        Get the assessment data.
+
+        Returns
+        -------
+        pd.DataFrame
+            The assessment data.
+        """
+        return self.get_data()
