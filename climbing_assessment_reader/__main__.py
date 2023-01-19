@@ -5,9 +5,10 @@ from enum import Enum
 from random import choice
 
 import typer
+from rich.console import Console
+
 from climbing_assessment_reader import version
 from climbing_assessment_reader.example import hello
-from rich.console import Console
 
 
 class Color(str, Enum):
