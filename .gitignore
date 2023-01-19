@@ -616,4 +616,11 @@ MigrationBackup/
 
 # Jupyter notebooks
 *.ipynb
+
+# IDEs and editors
+## JetBrains Rider
+.idea/*
+*.iml
+*.sln.iml
+
 # End of https://www.gitignore.io/api/osx,python,pycharm,windows,visualstudio,visualstudiocode
