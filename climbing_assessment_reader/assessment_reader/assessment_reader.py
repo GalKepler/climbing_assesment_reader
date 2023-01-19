@@ -12,6 +12,7 @@ from climbing_assessment_reader.assessment_reader.defaults import (
 )
 from climbing_assessment_reader.assessment_reader.utils import fix_multiple_entries
 from climbing_assessment_reader.static.converters import (
+    convert_attempt,
     convert_duplicated_columns,
     convert_grade,
     convert_questionnaire_id,
@@ -34,6 +35,7 @@ class AssessmentReader:
         "questionnaire_id": convert_questionnaire_id,
         "grade*": convert_grade,
         "timestamp": pd.to_datetime,
+        "attempt*": convert_attempt,
     }
 
     def __init__(
@@ -130,7 +132,7 @@ class AssessmentReader:
             fix_multiple_entries(df.replace({"": np.nan}))
             .groupby(["questionnaire_id", "date", "time"])
             .first()
-        )
+        ).reset_index()
 
     @property
     def data(self) -> pd.DataFrame:

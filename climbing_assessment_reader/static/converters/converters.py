@@ -27,6 +27,28 @@ def convert_duplicated_columns(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def convert_attempt(attempt: Union[str, int]) -> float:
+    """
+    Convert attempt
+
+    Parameters
+    ----------
+    attempt: str or int
+        Attempt to convert
+
+    Returns
+    -------
+    str or int
+        Converted attempt
+    """
+    if attempt == "":
+        return np.nan
+    if isinstance(attempt, str):
+        return float(attempt)
+    if attempt is None:
+        return np.nan
+
+
 def convert_grade(grade: Union[str, float]) -> float:
     """
     Convert grade to float
