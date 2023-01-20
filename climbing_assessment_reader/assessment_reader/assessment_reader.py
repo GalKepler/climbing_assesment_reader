@@ -10,7 +10,10 @@ from climbing_assessment_reader.assessment_reader.defaults import (
     GOOGLE_SHEET_NAME,
     GOOGLE_SHEET_URL,
 )
-from climbing_assessment_reader.assessment_reader.utils import fix_multiple_entries
+from climbing_assessment_reader.assessment_reader.utils import (
+    calculate_assessment_score,
+    fix_multiple_entries,
+)
 from climbing_assessment_reader.static.converters import (
     convert_attempt,
     convert_duplicated_columns,
@@ -128,11 +131,14 @@ class AssessmentReader:
         df = self.convert_columns(df)
         df["date"] = df["timestamp"].dt.date
         df["time"] = df["timestamp"].dt.time
-        return (
+        df = (
             fix_multiple_entries(df.replace({"": np.nan}))
             .groupby(["questionnaire_id", "date", "time"])
             .first()
-        ).reset_index()
+            .reset_index()
+        )
+        df["score"] = df.apply(calculate_assessment_score, axis=1)
+        return df
 
     @property
     def data(self) -> pd.DataFrame:

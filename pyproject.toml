@@ -41,6 +41,8 @@ ipykernel = "^6.20.2"
 gspread = "^5.7.2"
 pre-commit = "^2.21.0"
 jupyter = "^1.0.0"
+openpyxl = "^3.0.10"
+seaborn = "^0.12.2"
 
 [tool.poetry.dev-dependencies]
 bandit = "^1.7.1"

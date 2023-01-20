@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 
@@ -78,3 +79,24 @@ def fill_missing_values(
                 ):
                     target_df.loc[target_row, column] = values[counter]
                 counter += 1
+
+
+def calculate_assessment_score(row: pd.Series):
+    """
+    Calculate the assessment score.
+    Scoring system:
+    Grades squared divided by attempts.
+
+    Parameters
+    ----------
+    row : pd.Series
+        The row to calculate the score.
+
+    Returns
+    -------
+    float
+        The score.
+    """
+    grades = row.filter(regex="grade*").values
+    attempts = row.filter(regex="attempt*").values
+    return np.nanmean((grades**2) / attempts)
